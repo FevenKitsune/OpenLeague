@@ -17,7 +17,16 @@ import platform # Platform import for version checking.
 Here, you can set all of the configurations for the bot.
 """
 
+# Prefix used for commands
 botPrefix = '!' # Default = !
+
+# A list of ID's for roles.
+owner = ['exampleid1']
+staff = ['exampleid1', 'exampleid2']
+team_owner = ['exampleid1']
+team_staff = ['exampleid1', 'exampleid2']
+free = ['exampleid1']
+
 
 """LOGGING
 Sets the logging level for the program. This makes it easier to diagnose
