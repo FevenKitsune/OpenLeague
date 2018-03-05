@@ -44,7 +44,7 @@ async def on_ready():
 
     startup = logging.getLogger("startup") # Creates a logger for use while starting up.
     
-    startup.info("Logged in as: " + client.user.name + " | " + "ID: " + str(client.user.id))
+    startup.info("Logged in as: " + client.user.name + " (ID: " + str(client.user.id) + ")")
     startup.info("Discord.py version: " + discord.__version__)
     startup.info("Python version: " + platform.python_version())
     
