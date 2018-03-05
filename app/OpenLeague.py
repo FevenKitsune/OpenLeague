@@ -48,6 +48,15 @@ async def on_ready():
     startup.info("Discord.py version: " + discord.__version__)
     startup.info("Python version: " + platform.python_version())
     
+"""PING
+The ping command is useful to check if the bot is running.
+"""
+
+@client.command()
+async def ping(*args):
+
+    await client.say(":wave: Pong!")
+    
 """RUN
 To run the bot, insert your API key below.
 """
