@@ -1,3 +1,3 @@
 # OpenLeague
-The open-source host-it-yourself alternative to MagicLeague.__
+The open-source host-it-yourself alternative to MagicLeague.<br>
 Test
