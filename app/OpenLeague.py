@@ -25,8 +25,8 @@ problems. Discord.py will output detailed information as it runs.
 """
 
 logging.basicConfig(level=logging.INFO)
-command = logging.getLogger("command")
-startup = logging.getLogger("startup") # Creates a logger for use while starting up.
+command = logging.getLogger("command") # The command logger is used while the bot is running.
+startup = logging.getLogger("startup") # The startup logger is used during startup.
 
 """CREATE CLIENT
 Here, the client is created with the given parameters.
