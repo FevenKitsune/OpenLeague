@@ -6,4 +6,6 @@ Nothing to see yet!
 How to install the latest Discord.py rewrite:<br>
 ``pip3 install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]``
 ***
-Markdown syntax guide: https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html
+Reference Guides:<br>
+Markdown syntax guide: https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html<br>
+Python syntax guide: https://www.python.org/dev/peps/pep-0008
