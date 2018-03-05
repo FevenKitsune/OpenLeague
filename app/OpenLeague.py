@@ -8,6 +8,7 @@ Syntax Guide: https://www.python.org/dev/peps/pep-0008
 """
 
 import discord # Discord.py import
+import asyncio
 from discord.ext.commands import Bot # Discord.py ext import
 from discord.ext import commands # Discord.py ext import
 import logging # Logging import
@@ -55,7 +56,7 @@ The ping command is useful to check if the bot is running.
 @client.command()
 async def ping(*args):
 
-    await client.say(":wave: Pong!")
+    await message.channel.send(":wave: Pong!")
     
 """RUN
 To run the bot, insert your API key below.
