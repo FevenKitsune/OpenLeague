@@ -18,15 +18,22 @@ import platform # Platform import for version checking.
 Here, you can set all of the configurations for the bot.
 """
 
+# Extensions are placed here.
+startup_extensions = ["ExtensionExample"]
+
 # Prefix used for commands
 botPrefix = '!' # Default = !
 
+# Enable or disable various functions of the bot
+transactions_toggle = True # Can equal True or False.
+promotions_toggle = True # Can equal True or False.
+
 # Transaction channel settings
-transactionChannel_toggle = True # Can equal True or False.
+transactionChannel_toggle = False # Can equal True or False.
 transactionChannel = [] # Format: ['111111111111111111']
 
 # Promotion channel settings
-promotionChannel_toggle = True # Can equal True or False.
+promotionChannel_toggle = False # Can equal True or False.
 promotionChannel = [] # Format: ['111111111111111111']
 
 # A list of ID's for roles. Format: ['111111111111111111', '222222222222222222'] or ['111111111111111111']
@@ -192,12 +199,21 @@ async def on_ready():
             else:
                 startup.warn("Was unable to find " + str(find_channel.id) + " on the given server! Please check your config.")
                 await client.close()
+                
+    # Extension loader. Loads extensions listed above.
+    for extension in startup_extensions:
+        try:
+            client.load_extension(extension)
+        except Exception:
+            startup.warn("Failed to load extension: " + extension)
+        else:
+            startup.info("Loaded extension: " + extension)
     
 """PING
 The ping command is useful to check if the bot is running.
 """
 
-@client.command(name='ping', description='A simple ping command. Checks if the bot is running!')
+@client.command(name='ping', brief='Ping the bot', description='A simple ping command. Checks if the bot is running!')
 async def ping(ctx, *args):
 
     command.info(ctx.message.author.name + " ran " + ctx.invoked_with + " (args: " + str(', '.join(args)) + ")")
@@ -211,7 +227,7 @@ async def ping(ctx, *args):
 The getid command will return the ID of a tagged member, role, or channel.
 """
 
-@client.command(name='getid', description='Returns the ID of a member, role, or channel.')
+@client.command(name='getid', aliases=['gid','id'], brief='Search tagged objects', description='Returns the ID of a member, role, or channel.')
 async def getid(ctx, *args):
 
     command.info(ctx.message.author.name + " ran " + ctx.invoked_with + " (args: " + str(', '.join(args)) + ")")
@@ -227,6 +243,54 @@ async def getid(ctx, *args):
         for role in ctx.message.role_mentions:
             pl = pl + ":name_badge: " +  role.name + ": " + str(role.id) + "\n"
         await ctx.send(pl)
+        
+"""PROMOTE
+Filler
+"""
+
+@client.command(name='promote', aliases=['p'], brief='Promote user', description='Gives tagged player the tagged team_staff rank.', usage='[@tag_player] [@tag_team] [@tag_role]')
+async def promote(ctx, *args):
+    print("filler")
+
+"""DEMOTE
+Filler
+"""
+
+@client.command(name='demote', aliases=['d'], brief='Demote user', description='Removes all team_staff ranks from a tagged player.')
+async def demote(ctx, *args):
+    print("filler")
+
+"""SIGN
+Filler
+"""
+
+@client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.')
+async def sign(ctx, *args):
+    print("filler")
+
+"""RELEASE
+Filler
+"""
+
+@client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.')
+async def release(ctx, *args):
+    print("filler")
+
+"""MSGROLE
+Filler
+"""
+
+@client.command(name='msgrole', aliases=['mr'], brief='Staff command. Message role.', description='Staff only. Message all members of a tagged role.')
+async def msgrole(ctx, *args):
+    print("filler")
+
+"""SOURCE
+Link to source code
+"""
+
+@client.command(name='source', brief='Source code', description='Get information about the bot, as well as a link to the source code.')
+async def source(ctx, *args):
+    print("filler")
     
 """RUN
 To run the bot, insert your Discord Developers Token below.
