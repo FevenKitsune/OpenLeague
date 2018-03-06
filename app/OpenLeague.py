@@ -8,6 +8,7 @@ Syntax Guide: https://www.python.org/dev/peps/pep-0008
 """
 
 import discord # Discord.py import
+from discord.utils import find #Discord.py find utility
 from discord.ext.commands import Bot # Discord.py ext import
 from discord.ext import commands # Discord.py ext import
 import logging # Logging import
@@ -20,12 +21,21 @@ Here, you can set all of the configurations for the bot.
 # Prefix used for commands
 botPrefix = '!' # Default = !
 
-# A list of ID's for roles.
-owner = ['exampleid1']
-staff = ['exampleid1', 'exampleid2']
-team_owner = ['exampleid1']
-team_staff = ['exampleid1', 'exampleid2']
-free = ['exampleid1']
+# A list of ID's for roles. Format: ['111111111111111111', '222222222222222222'] or ['111111111111111111']
+server = [] # Only assign one server ID.
+owner = []
+staff = []
+team_owner = []
+team_staff = []
+free = []
+
+# Variables used to store role objects. Do not edit.
+F_server = []
+F_owner = []
+F_staff = []
+F_team_owner = []
+F_team_staff = []
+F_free = []
 
 
 """LOGGING
@@ -52,10 +62,87 @@ Here, I have put a number of logging commands to output information about the bo
 
 @client.event
 async def on_ready():
+
+    # Global variables to assign server variables.
+    global F_server
+    global F_owner
+    global F_staff
+    global F_team_owner
+    global F_team_staff
+    global F_free
     
+    # Startup information
     startup.info("Logged in as: " + client.user.name + " (ID: " + str(client.user.id) + ")")
     startup.info("Discord.py version: " + discord.__version__)
     startup.info("Python version: " + platform.python_version())
+    
+    # Check to make sure there isn't more than one server in config.
+    if len(server) > 1:
+        startup.warn("More than one server provided in config! Please edit the config.")
+        await client.close()
+        
+    # Check to make sure there is a server in config.
+    if len(server) < 1:
+        startup.warn("No server provided in config! Please edit the config.")
+        await client.close()
+    
+    # Find server and assign it to F_server.
+    F_server = find(lambda a: str(a.id) == server[0], client.guilds)
+    
+    # If the server is not found, throw an error.
+    if not F_server:
+        startup.warn("Was unable to find " + str(server[0]) + " as a server! Please check your config.")
+        await client.close()
+    
+    # Find owner roles and assign them to F_owner
+    for id in owner:
+        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        if find_role:
+            startup.info("Found owner role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
+            F_owner.append(find_role)
+        else:
+            startup.warn("Was unable to find " + str(id) + " on the given server! Please check your config.")
+            await client.close()
+            
+    # Find staff roles and assign them to F_staff
+    for id in staff:
+        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        if find_role:
+            startup.info("Found staff role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
+            F_staff.append(find_role)
+        else:
+            startup.warn("Was unable to find " + str(id) + " on the given server! Please check your config.")
+            await client.close()
+            
+    # Find team_owner roles and assign them to F_team_owner
+    for id in team_owner:
+        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        if find_role:
+            startup.info("Found team_owner role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
+            F_team_owner.append(find_role)
+        else:
+            startup.warn("Was unable to find " + str(id) + " on the given server! Please check your config.")
+            await client.close()
+    
+    # Find team_staff roles and assign them to F_team_staff
+    for id in team_staff:
+        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        if find_role:
+            startup.info("Found team_staff role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
+            F_team_staff.append(find_role)
+        else:
+            startup.warn("Was unable to find " + str(id) + " on the given server! Please check your config.")
+            await client.close()
+    
+    # Find free roles and assign them to F_free
+    for id in free:
+        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        if find_role:
+            startup.info("Found free role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
+            F_free.append(find_role)
+        else:
+            startup.warn("Was unable to find " + str(id) + " on the given server! Please check your config.")
+            await client.close()
     
 """PING
 The ping command is useful to check if the bot is running.
