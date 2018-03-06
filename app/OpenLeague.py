@@ -21,6 +21,14 @@ Here, you can set all of the configurations for the bot.
 # Prefix used for commands
 botPrefix = '!' # Default = !
 
+# Transaction channel settings
+transactionChannel_toggle = True # Can equal True or False.
+transactionChannel = [] # Format: ['111111111111111111']
+
+# Promotion channel settings
+promotionChannel_toggle = True # Can equal True or False.
+promotionChannel = [] # Format: ['111111111111111111']
+
 # A list of ID's for roles. Format: ['111111111111111111', '222222222222222222'] or ['111111111111111111']
 server = [] # Only assign one server ID.
 owner = []
@@ -36,6 +44,10 @@ F_staff = []
 F_team_owner = []
 F_team_staff = []
 F_free = []
+
+# Variables used to store channel objects. Do not edit.
+F_transactionChannel = []
+F_promotionChannel = []
 
 
 """LOGGING
@@ -70,6 +82,9 @@ async def on_ready():
     global F_team_owner
     global F_team_staff
     global F_free
+    
+    global F_transactionChannel
+    global F_promotionChannel
     
     # Startup information
     startup.info("Logged in as: " + client.user.name + " (ID: " + str(client.user.id) + ")")
@@ -143,6 +158,40 @@ async def on_ready():
         else:
             startup.warn("Was unable to find " + str(id) + " on the given server! Please check your config.")
             await client.close()
+            
+    # Check if transaction toggle is enabled, and find the channel.
+    if transactionChannel_toggle == True:
+        if len(transactionChannel) > 1:
+            startup.warn("Multiple transaction channels detected. Please check your config.")
+            await client.close()
+        elif len(transactionChannel) < 1:
+            startup.warn("transactionChannel_toggle is enabled, but no channel is given. Please check your config.")
+            await client.close()
+        else:
+            find_channel = find(lambda b: str(b.id) == transactionChannel[0], F_server.channels)
+            if find_channel:
+                startup.info("Found transaction channel: " + find_channel.name + " (ID: " + str(find_channel.id) + ")")
+                F_transactionChannel = find_channel
+            else:
+                startup.warn("Was unable to find " + str(find_channel.id) + " on the given server! Please check your config.")
+                await client.close()
+    
+    # Check if promotion toggle is enabled, and find the channel.
+    if promotionChannel_toggle == True:
+        if len(promotionChannel) > 1:
+            startup.warn("Multiple promotion channels detected. Please check your config.")
+            await client.close()
+        elif len(promotionChannel) < 1:
+            startup.warn("promotionChannel_toggle is enabled, but no channel is given. Please check your config.")
+            await client.close()
+        else:
+            find_channel = find(lambda b: str(b.id) == promotionChannel[0], F_server.channels)
+            if find_channel:
+                startup.info("Found promotion channel: " + find_channel.name + " (ID: " + str(find_channel.id) + ")")
+                F_promotionChannel = find_channel
+            else:
+                startup.warn("Was unable to find " + str(find_channel.id) + " on the given server! Please check your config.")
+                await client.close()
     
 """PING
 The ping command is useful to check if the bot is running.
@@ -180,7 +229,7 @@ async def getid(ctx, *args):
         await ctx.send(pl)
     
 """RUN
-To run the bot, insert your API key below.
+To run the bot, insert your Discord Developers Token below.
 """
 
-client.run("KEY")
+client.run("KEY") # Put your Discord Developers Token here!
