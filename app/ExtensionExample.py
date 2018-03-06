@@ -21,7 +21,7 @@ class ExtensionExample():
     """
     
     @commands.command(name='extension', aliases=['ext'], brief='Extension example', description='An example of a loaded extension!', usage='<none>')
-    async def extension(ctx, *args):
+    async def extension(self, ctx, *args):
         await ctx.send(":ok_hand: Extension loaded!")
         
 def setup(client):

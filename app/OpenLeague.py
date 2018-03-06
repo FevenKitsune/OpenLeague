@@ -29,20 +29,20 @@ transactions_toggle = True # Can equal True or False.
 promotions_toggle = True # Can equal True or False.
 
 # Transaction channel settings
-transactionChannel_toggle = False # Can equal True or False.
-transactionChannel = [] # Format: ['111111111111111111']
+transactionChannel_toggle = True # Can equal True or False.
+transactionChannel = ['409439762689163275'] # Format: ['111111111111111111']
 
 # Promotion channel settings
-promotionChannel_toggle = False # Can equal True or False.
-promotionChannel = [] # Format: ['111111111111111111']
+promotionChannel_toggle = True # Can equal True or False.
+promotionChannel = ['409439762689163275'] # Format: ['111111111111111111']
 
 # A list of ID's for roles. Format: ['111111111111111111', '222222222222222222'] or ['111111111111111111']
-server = [] # Only assign one server ID.
-owner = []
-staff = []
-team_owner = []
-team_staff = []
-free = []
+server = ['385059238231408651'] # Only assign one server ID.
+owner = ['385059307110137856']
+staff = ['414881926630080512']
+team_owner = ['409468370191253514']
+team_staff = ['409468200347238421']
+free = ['385059381391392770']
 
 # Variables used to store role objects. Do not edit.
 F_server = []
