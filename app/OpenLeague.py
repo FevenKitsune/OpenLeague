@@ -213,20 +213,71 @@ async def on_ready():
 Check definitions allow commands to run permission checks easily.
 """
 
+#Returns true if author is server owner
 def is_serverowner(ctx):
     return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in owner]
     
+#Returns true if author is server staff
 def is_serverstaff(ctx):
     return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in staff]
     
+#Returns true if author is team owner
 def is_teamowner(ctx):
-    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_owner]
+    if ctx.message.role_mentions[0] in ctx.message.author.roles:
+        return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_owner]
     
+#Returns true if author is team staff.
 def is_teamstaff(ctx):
-    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_staff]
+    if ctx.message.role_mentions[0] in ctx.message.author.roles:
+        return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_staff]
 
+#Returns true if mentioned user is a free agent.
 def is_free(ctx):
     return [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in free]
+    
+#Returns true if mentioned user is team_staff or team_owner
+def team_position(ctx):
+    if [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in team_staff] or [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in team_owner]:
+        return True
+    return False
+    
+#Iterates and removes all free agent roles.
+async def rm_free(ctx):
+    for r in ctx.message.mentions[0].roles:
+        if str(r.id) in free:
+            while r in ctx.message.mentions[0].roles:
+                await ctx.message.mentions[0].remove_roles(r)
+                
+#Gives mentioned user free roles.
+async def set_free(ctx):
+    for r in free:
+        far = discord.utils.find(lambda f: f.id == int(r), ctx.message.guild.roles)
+        while far not in ctx.message.mentions[0].roles:
+            await ctx.message.mentions[0].add_roles(far)
+                
+#Signs user to the first mentioned team.
+async def set_team(ctx):
+    while ctx.message.role_mentions[0] not in ctx.message.mentions[0].roles:
+        await ctx.message.mentions[0].add_roles(ctx.message.role_mentions[0])
+
+#Checks if mentioned user is on mentioned team        
+def on_team(ctx):
+    if ctx.message.role_mentions[0] in ctx.message.mentions[0].roles:
+        return True
+    return False
+    
+#Removes tagged team from tagged user
+async def rm_team(ctx):
+    while ctx.message.role_mentions[0] in ctx.message.mentions[0].roles:
+        await ctx.message.mentions[0].remove_roles(ctx.message.role_mentions[0])
+        
+#Posts sign message
+async def sign_message(ctx):
+    await ctx.send(ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
+
+#Posts release message
+async def release_message(ctx):
+    await ctx.send(ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
 
 """PING
 The ping command is useful to check if the bot is running.
@@ -287,9 +338,11 @@ Filler
 async def sign(ctx, *args):
     print("sign")
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
-        if is_serverowner(ctx) or is_serverstaff(ctx) or (is_teamowner(ctx) and ctx.message.role_mentions[0] in ctx.message.author.roles) or (is_teamstaff(ctx) and ctx.message.role_mentions[0] in ctx.message.author.roles):
+        if is_serverowner(ctx) or is_serverstaff(ctx) or is_teamowner(ctx) or is_teamstaff(ctx):
             if is_free(ctx):
-                print("filler")
+                await rm_free(ctx)
+                await set_team(ctx)
+                await sign_message(ctx)
             else:
                 await ctx.send(":negative_squared_cross_mark: Sorry, that user is not a free agent.")
         else:
@@ -303,7 +356,21 @@ Filler
 
 @client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.')
 async def release(ctx, *args):
-    print("filler")
+    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
+        if is_serverowner(ctx) or is_serverstaff(ctx) or is_teamowner(ctx) or is_teamstaff(ctx):
+            if on_team(ctx):
+                if not team_position(ctx):
+                    await rm_team(ctx)
+                    await set_free(ctx)
+                    await release_message(ctx)
+                else:
+                    await ctx.send(":negative_squared_cross_mark: Sorry, that user is still staff! Please demote them first.")
+            else:
+                await ctx.send(":negative_squared_cross_mark: Sorry, that user is not on that team.")
+        else:
+            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
+    else:
+        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
 
 """MSGROLE
 Filler
