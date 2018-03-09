@@ -209,6 +209,25 @@ async def on_ready():
         else:
             startup.info("Loaded extension: " + extension)
     
+"""CHECKS
+Check definitions allow commands to run permission checks easily.
+"""
+
+def is_serverowner(ctx):
+    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in owner]
+    
+def is_serverstaff(ctx):
+    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in staff]
+    
+def is_teamowner(ctx):
+    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_owner]
+    
+def is_teamstaff(ctx):
+    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_staff]
+
+def is_free(ctx):
+    return [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in free]
+
 """PING
 The ping command is useful to check if the bot is running.
 """
@@ -266,7 +285,17 @@ Filler
 
 @client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.')
 async def sign(ctx, *args):
-    print("filler")
+    print("sign")
+    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
+        if is_serverowner(ctx) or is_serverstaff(ctx) or (is_teamowner(ctx) and ctx.message.role_mentions[0] in ctx.message.author.roles) or (is_teamstaff(ctx) and ctx.message.role_mentions[0] in ctx.message.author.roles):
+            if is_free(ctx):
+                print("filler")
+            else:
+                await ctx.send(":negative_squared_cross_mark: Sorry, that user is not a free agent.")
+        else:
+            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
+    else:
+        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
 
 """RELEASE
 Filler
