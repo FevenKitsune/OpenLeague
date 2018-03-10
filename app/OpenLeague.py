@@ -273,11 +273,11 @@ async def rm_team(ctx):
         
 #Posts sign message
 async def sign_message(ctx):
-    await ctx.send(ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
+    
 
 #Posts release message
 async def release_message(ctx):
-    await ctx.send(ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
+    
 
 """PING
 The ping command is useful to check if the bot is running.
@@ -342,7 +342,7 @@ async def sign(ctx, *args):
             if is_free(ctx):
                 await rm_free(ctx)
                 await set_team(ctx)
-                await sign_message(ctx)
+                await ctx.send(ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
             else:
                 await ctx.send(":negative_squared_cross_mark: Sorry, that user is not a free agent.")
         else:
@@ -362,7 +362,7 @@ async def release(ctx, *args):
                 if not team_position(ctx):
                     await rm_team(ctx)
                     await set_free(ctx)
-                    await release_message(ctx)
+                    await ctx.send(ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
                 else:
                     await ctx.send(":negative_squared_cross_mark: Sorry, that user is still staff! Please demote them first.")
             else:
