@@ -40,8 +40,8 @@ promotionChannel = ['409439762689163275'] # Format: ['111111111111111111']
 server = ['385059238231408651'] # Only assign one server ID.
 owner = ['385059307110137856']
 staff = ['414881926630080512']
-team_owner = ['409468370191253514']
-team_staff = ['409468200347238421']
+team_owner = []
+team_staff = ['409468200347238421', '409468370191253514']
 free = ['385059381391392770']
 
 # Variables used to store role objects. Do not edit.
@@ -214,12 +214,12 @@ Check definitions allow commands to run permission checks easily.
 """
 
 async def set_role(u, r):
-    while r not in r.roles:
-        await r.add_roles(r)
+    while r not in u.roles:
+        await u.add_roles(r)
 
 async def rm_role(u, r):
     while r in u.roles:
-        await r.remove_roles(r)
+        await u.remove_roles(r)
     
 async def has_role(u, r):
     if r in u.roles: return True
@@ -300,7 +300,20 @@ Filler
 
 @client.command(name='promote', aliases=['p'], brief='Promote user', description='Gives tagged player the tagged team_staff rank.', usage='[@tag_player] [@tag_team] [@tag_role]')
 async def promote(ctx, *args):
-    print("filler")
+    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==2:
+        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
+            if str(ctx.message.role_mentions[1].id) in team_staff:
+                if not await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or not await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+                    await set_role(ctx.message.mentions[0], ctx.message.role_mentions[1])
+                    await ctx.send(":star2: " + ctx.message.mentions[0].mention + " was promoted to " + ctx.message.role_mentions[1].mention)
+                else:
+                    await ctx.send(":negative_squared_cross_mark: Sorry, that user is already staff, or not on that team.")
+            else:
+                await ctx.send(":negative_squared_cross_mark: Sorry, the tagged role is not a team_staff role. Please check your syntax.")
+        else:
+            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
+    else:
+        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
 
 """DEMOTE
 Filler
@@ -308,7 +321,23 @@ Filler
 
 @client.command(name='demote', aliases=['d'], brief='Demote user', description='Removes all team_staff ranks from a tagged player.')
 async def demote(ctx, *args):
-    print("filler")
+    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==2:
+        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
+            if str(ctx.message.role_mentions[1].id) in team_staff:
+                if await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+                    if await has_role(ctx.message.mentions[0], ctx.message.role_mentions[1]):
+                        await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[1])
+                        await ctx.send(":arrow_heading_down: " + ctx.message.mentions[0].mention + " was demoted from " + ctx.message.role_mentions[1].mention)
+                    else:
+                        await ctx.send(":negative_squared_cross_mark: Sorry, that user does not have the tagged team_staff role.")
+                else:
+                    await ctx.send(":negative_squared_cross_mark: Sorry, that user is not currently team_staff, or not on that team.")
+            else:
+                await ctx.send(":negative_squared_cross_mark: Sorry, the tagged role is not a team_staff role. Please check your syntax.")
+        else:
+            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
+    else:
+        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
 
 """SIGN
 Filler
@@ -318,10 +347,10 @@ Filler
 async def sign(ctx, *args):
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
         if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
-            if is_free(ctx.message.mentions[0]):
+            if await is_free(ctx.message.mentions[0]):
                 await rm_free(ctx.message.mentions[0])
                 await set_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
-                await ctx.send(ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
+                await ctx.send(":pen_fountain: " + ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
             else:
                 await ctx.send(":negative_squared_cross_mark: Sorry, that user is not a free agent.")
         else:
@@ -341,7 +370,7 @@ async def release(ctx, *args):
                 if not await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or not await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
                     await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
                     await set_free(ctx.message.mentions[0], ctx.message.guild)
-                    await ctx.send(ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
+                    await ctx.send(":exclamation: " + ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
                 else:
                     await ctx.send(":negative_squared_cross_mark: Sorry, that user is still staff! Please demote them first.")
             else:
