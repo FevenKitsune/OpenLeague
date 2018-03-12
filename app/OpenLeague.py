@@ -213,6 +213,19 @@ async def on_ready():
 Check definitions allow commands to run permission checks easily.
 """
 
+async def set_role(u, r):
+
+async def is_owner(u):
+
+async def is_staff(u):
+
+async def is_team_owner(u, r):
+
+async def is_team_staff(u, r):
+
+async def is_free(u):
+
+"""
 #Returns true if author is server owner
 def is_serverowner(ctx):
     return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in owner]
@@ -269,7 +282,7 @@ def on_team(ctx):
 #Removes tagged team from tagged user
 async def rm_team(ctx):
     while ctx.message.role_mentions[0] in ctx.message.mentions[0].roles:
-        await ctx.message.mentions[0].remove_roles(ctx.message.role_mentions[0])
+        await ctx.message.mentions[0].remove_roles(ctx.message.role_mentions[0])"""
         
 #Posts sign message
 async def sign_message(ctx):
