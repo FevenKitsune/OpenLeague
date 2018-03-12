@@ -214,19 +214,26 @@ Check definitions allow commands to run permission checks easily.
 """
 
 async def set_role(u, r):
-    print("filler")
+    while r not in r.roles:
+        await r.add_roles(r)
 
 async def rm_role(u, r):
-    print("filler")
+    while r in u.roles:
+        await r.remove_roles(r)
     
 async def has_role(u, r):
-    print("filler")
+    if r in u.roles: return True
+    else: return False
 
-async def set_free(u):
-    print("filler")
+async def set_free(u, s):
+    for r in free:
+        far = discord.utils.find(lambda f: f.id == int(r), s.roles)
+        await set_role(u, far)
     
 async def rm_free(u):
-    print("filler")
+    for r in u.roles:
+        if str(r.id) in free:
+            await rm_role(u, r)
     
 async def is_free(u):
     return [i for i in [str(role.id) for role in u.roles] if i in free]
@@ -242,66 +249,7 @@ async def is_team_owner(u, r):
 
 async def is_team_staff(u, r):
     return [i for i in [str(role.id) for role in u.roles] if i in team_staff]
-
-"""
-#Returns true if author is server owner
-def is_serverowner(ctx):
-    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in owner]
     
-#Returns true if author is server staff
-def is_serverstaff(ctx):
-    return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in staff]
-    
-#Returns true if author is team owner
-def is_teamowner(ctx):
-    if ctx.message.role_mentions[0] in ctx.message.author.roles:
-        return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_owner]
-    
-#Returns true if author is team staff.
-def is_teamstaff(ctx):
-    if ctx.message.role_mentions[0] in ctx.message.author.roles:
-        return [i for i in [str(role.id) for role in ctx.message.author.roles] if i in team_staff]
-
-#Returns true if mentioned user is a free agent.
-def is_free(ctx):
-    return [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in free]
-    
-#Returns true if mentioned user is team_staff or team_owner
-def team_position(ctx):
-    if [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in team_staff] or [i for i in [str(role.id) for role in ctx.message.mentions[0].roles] if i in team_owner]:
-        return True
-    return False
-    
-#Iterates and removes all free agent roles.
-async def rm_free(ctx):
-    for r in ctx.message.mentions[0].roles:
-        if str(r.id) in free:
-            while r in ctx.message.mentions[0].roles:
-                await ctx.message.mentions[0].remove_roles(r)
-                
-#Gives mentioned user free roles.
-async def set_free(ctx):
-    for r in free:
-        far = discord.utils.find(lambda f: f.id == int(r), ctx.message.guild.roles)
-        while far not in ctx.message.mentions[0].roles:
-            await ctx.message.mentions[0].add_roles(far)
-                
-#Signs user to the first mentioned team.
-async def set_team(ctx):
-    while ctx.message.role_mentions[0] not in ctx.message.mentions[0].roles:
-        await ctx.message.mentions[0].add_roles(ctx.message.role_mentions[0])
-
-#Checks if mentioned user is on mentioned team        
-def on_team(ctx):
-    if ctx.message.role_mentions[0] in ctx.message.mentions[0].roles:
-        return True
-    return False
-    
-#Removes tagged team from tagged user
-async def rm_team(ctx):
-    while ctx.message.role_mentions[0] in ctx.message.mentions[0].roles:
-        await ctx.message.mentions[0].remove_roles(ctx.message.role_mentions[0])"""
-        
 #Posts sign message
 async def sign_message(ctx):
     print("filler")
@@ -368,12 +316,11 @@ Filler
 
 @client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.')
 async def sign(ctx, *args):
-    print("sign")
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
-        if is_serverowner(ctx) or is_serverstaff(ctx) or is_teamowner(ctx) or is_teamstaff(ctx):
-            if is_free(ctx):
-                await rm_free(ctx)
-                await set_team(ctx)
+        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
+            if is_free(ctx.message.mentions[0]):
+                await rm_free(ctx.message.mentions[0])
+                await set_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
                 await ctx.send(ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
             else:
                 await ctx.send(":negative_squared_cross_mark: Sorry, that user is not a free agent.")
@@ -389,11 +336,11 @@ Filler
 @client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.')
 async def release(ctx, *args):
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
-        if is_serverowner(ctx) or is_serverstaff(ctx) or is_teamowner(ctx) or is_teamstaff(ctx):
-            if on_team(ctx):
-                if not team_position(ctx):
-                    await rm_team(ctx)
-                    await set_free(ctx)
+        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
+            if await has_role(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+                if not await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or not await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+                    await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
+                    await set_free(ctx.message.mentions[0], ctx.message.guild)
                     await ctx.send(ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
                 else:
                     await ctx.send(":negative_squared_cross_mark: Sorry, that user is still staff! Please demote them first.")
