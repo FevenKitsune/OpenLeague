@@ -214,16 +214,28 @@ Check definitions allow commands to run permission checks easily.
 """
 
 async def set_role(u, r):
+    print("filler")
+
+async def rm_role(u, r):
+    print("filler")
+
+async def set_free(u):
+    print("filler")
 
 async def is_owner(u):
+    return [i for i in [str(role.id) for role in u.roles] if i in owner]
 
 async def is_staff(u):
+    return [i for i in [str(role.id) for role in u.roles] if i in staff]
 
 async def is_team_owner(u, r):
+    return [i for i in [str(role.id) for role in u.roles] if i in team_owner]
 
 async def is_team_staff(u, r):
+    return [i for i in [str(role.id) for role in u.roles] if i in team_staff]
 
 async def is_free(u):
+    return [i for i in [str(role.id) for role in u.roles] if i in free]
 
 """
 #Returns true if author is server owner
@@ -286,10 +298,11 @@ async def rm_team(ctx):
         
 #Posts sign message
 async def sign_message(ctx):
-    
+    print("filler")
 
 #Posts release message
 async def release_message(ctx):
+    print("filler")
     
 
 """PING
@@ -400,6 +413,8 @@ Link to source code
 @client.command(name='source', brief='Source code', description='Get information about the bot, as well as a link to the source code.')
 async def source(ctx, *args):
     print("filler")
+    if await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
+        print("you are team owner")
     
 """RUN
 To run the bot, insert your Discord Developers Token below.
