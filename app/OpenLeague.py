@@ -218,9 +218,18 @@ async def set_role(u, r):
 
 async def rm_role(u, r):
     print("filler")
+    
+async def has_role(u, r):
+    print("filler")
 
 async def set_free(u):
     print("filler")
+    
+async def rm_free(u):
+    print("filler")
+    
+async def is_free(u):
+    return [i for i in [str(role.id) for role in u.roles] if i in free]
 
 async def is_owner(u):
     return [i for i in [str(role.id) for role in u.roles] if i in owner]
@@ -233,9 +242,6 @@ async def is_team_owner(u, r):
 
 async def is_team_staff(u, r):
     return [i for i in [str(role.id) for role in u.roles] if i in team_staff]
-
-async def is_free(u):
-    return [i for i in [str(role.id) for role in u.roles] if i in free]
 
 """
 #Returns true if author is server owner
