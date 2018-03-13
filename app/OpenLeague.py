@@ -214,57 +214,69 @@ Check definitions allow commands to run permission checks easily.
 """
 
 # ARGUMENTS: User, Role
+# USE: Sets the given User to the Role, and verifies that the user has the role.
 async def set_role(u, r):
     while r not in u.roles:
         await u.add_roles(r)
 
 # ARGUMENTS: User, Role
+# USE: Removes the given Role from the User and verifies the role was removed.
 async def rm_role(u, r):
     while r in u.roles:
         await u.remove_roles(r)
 
 # ARGUMENTS: User, Role
+# USE: Checks if the given User has the given Role and returns True.
 async def has_role(u, r):
     if r in u.roles: return True
     else: return False
 
 # ARGUMENTS: User, Server
+# USE: Gives all roles in free[] to given User. Server pass is required so the bot knows what server to search.
 async def set_free(u, s):
     for r in free:
         far = discord.utils.find(lambda f: f.id == int(r), s.roles)
         await set_role(u, far)
 
 # ARGUMENTS: User
+# USE: Gets all roles from User, and compares them to values in the free[] list. If the values match, remove the role and move on.
 async def rm_free(u):
     for r in u.roles:
         if str(r.id) in free:
             await rm_role(u, r)
 
 # ARGUMENTS: User
+# USE: Checks if given User has any roles that match any of the roles in free[].
 async def is_free(u):
     return [i for i in [str(role.id) for role in u.roles] if i in free]
 
 # ARGUMENTS: User
+# USE: Checks if given User has any roles that match any of the roles in owner[].
 async def is_owner(u):
     return [i for i in [str(role.id) for role in u.roles] if i in owner]
 
 # ARGUMENTS: User
+# USE: Checks if given User has any roles that match any of the roles in staff[].
 async def is_staff(u):
     return [i for i in [str(role.id) for role in u.roles] if i in staff]
 
 # ARGUMENTS: User, Role
+# USE: Checks if given User has any roles that match any of the roles in team_owner[].
 async def is_team_owner(u, r):
     return [i for i in [str(role.id) for role in u.roles] if i in team_owner]
 
 # ARGUMENTS: User, Role
+# USE: Checks if given User has any roles that match any of the roles in team_staff[].
 async def is_team_staff(u, r):
     return [i for i in [str(role.id) for role in u.roles] if i in team_staff]
     
-#Posts sign message
+# ARGUMENTS: Context
+# USE: Posts a sign message to the given message context when a user is signed.
 async def sign_message(ctx):
     print("filler")
 
-#Posts release message
+# ARGUMENTS: Context
+# USE: Posts a release message to the given message context when a user is released.
 async def release_message(ctx):
     print("filler")
     
