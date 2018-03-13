@@ -213,40 +213,50 @@ async def on_ready():
 Check definitions allow commands to run permission checks easily.
 """
 
+# ARGUMENTS: User, Role
 async def set_role(u, r):
     while r not in u.roles:
         await u.add_roles(r)
 
+# ARGUMENTS: User, Role
 async def rm_role(u, r):
     while r in u.roles:
         await u.remove_roles(r)
-    
+
+# ARGUMENTS: User, Role
 async def has_role(u, r):
     if r in u.roles: return True
     else: return False
 
+# ARGUMENTS: User, Server
 async def set_free(u, s):
     for r in free:
         far = discord.utils.find(lambda f: f.id == int(r), s.roles)
         await set_role(u, far)
-    
+
+# ARGUMENTS: User
 async def rm_free(u):
     for r in u.roles:
         if str(r.id) in free:
             await rm_role(u, r)
-    
+
+# ARGUMENTS: User
 async def is_free(u):
     return [i for i in [str(role.id) for role in u.roles] if i in free]
 
+# ARGUMENTS: User
 async def is_owner(u):
     return [i for i in [str(role.id) for role in u.roles] if i in owner]
 
+# ARGUMENTS: User
 async def is_staff(u):
     return [i for i in [str(role.id) for role in u.roles] if i in staff]
 
+# ARGUMENTS: User, Role
 async def is_team_owner(u, r):
     return [i for i in [str(role.id) for role in u.roles] if i in team_owner]
 
+# ARGUMENTS: User, Role
 async def is_team_staff(u, r):
     return [i for i in [str(role.id) for role in u.roles] if i in team_staff]
     
