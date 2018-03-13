@@ -285,7 +285,7 @@ async def release_message(ctx):
 The ping command is useful to check if the bot is running.
 """
 
-@client.command(name='ping', brief='Ping the bot', description='A simple ping command. Checks if the bot is running!')
+@client.command(name='ping', brief='Ping the bot', description='A simple ping command. Checks if the bot is running!', usage='<string>')
 async def ping(ctx, *args):
 
     command.info(ctx.message.author.name + " ran " + ctx.invoked_with + " (args: " + str(', '.join(args)) + ")")
@@ -299,7 +299,7 @@ async def ping(ctx, *args):
 The getid command will return the ID of a tagged member, role, or channel.
 """
 
-@client.command(name='getid', aliases=['gid','id'], brief='Search tagged objects', description='Returns the ID of a member, role, or channel.')
+@client.command(name='getid', aliases=['gid','id'], brief='Search tagged objects', description='Returns the ID of a member, role, or channel.', usage='[@tag_player]/[@tag_team]/[@tag_channel]')
 async def getid(ctx, *args):
 
     command.info(ctx.message.author.name + " ran " + ctx.invoked_with + " (args: " + str(', '.join(args)) + ")")
@@ -341,7 +341,7 @@ async def promote(ctx, *args):
 Filler
 """
 
-@client.command(name='demote', aliases=['d'], brief='Demote user', description='Removes all team_staff ranks from a tagged player.')
+@client.command(name='demote', aliases=['d'], brief='Demote user', description='Removes all team_staff ranks from a tagged player.', usage='[@tag_player] [@tag_team] [@tag_role]')
 async def demote(ctx, *args):
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==2:
         if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
@@ -365,7 +365,7 @@ async def demote(ctx, *args):
 Filler
 """
 
-@client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.')
+@client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.', usage='[@tag_player] [@tag_team]')
 async def sign(ctx, *args):
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
         if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
@@ -384,7 +384,7 @@ async def sign(ctx, *args):
 Filler
 """
 
-@client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.')
+@client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.', usage='[@tag_player] [@tag_team]')
 async def release(ctx, *args):
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
         if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
@@ -406,7 +406,7 @@ async def release(ctx, *args):
 Filler
 """
 
-@client.command(name='msgrole', aliases=['mr'], brief='Staff command. Message role.', description='Staff only. Message all members of a tagged role.')
+@client.command(name='msgrole', aliases=['mr'], brief='Staff command. Message role.', description='Staff only. Message all members of a tagged role.', usage='[@tag_role] [string]')
 async def msgrole(ctx, *args):
     print("filler")
 
@@ -414,11 +414,9 @@ async def msgrole(ctx, *args):
 Link to source code
 """
 
-@client.command(name='source', brief='Source code', description='Get information about the bot, as well as a link to the source code.')
+@client.command(name='source', brief='Source code', description='Get information about the bot, as well as a link to the source code.', usage='')
 async def source(ctx, *args):
     print("filler")
-    if await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
-        print("you are team owner")
     
 """RUN
 To run the bot, insert your Discord Developers Token below.
