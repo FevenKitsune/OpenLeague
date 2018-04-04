@@ -21,9 +21,6 @@ Here, you can set all of the configurations for the bot.
 # Extensions are placed here.
 startup_extensions = ["ExtensionExample"]
 
-# Prefix used for commands
-botPrefix = '!' # Default = !
-
 # Enable or disable various functions of the bot
 transactions_toggle = True # Can equal True or False.
 promotions_toggle = True # Can equal True or False.
@@ -44,7 +41,16 @@ team_owner = []
 team_staff = [409468200347238421, 409468370191253514]
 free = [385059381391392770]
 
-# Variables used to store role objects. Do not edit.
+# Sign and Release Messages
+SIGN_MESSAGE = "Hello World!"
+RELEASE_MESSAGE = "Hello World!"
+
+# Other constants
+SOURCE_CODE_URL = "https://github.com/FevenKitsune/OpenLeague"
+BOT_DESCRIPTION = "OpenLeague, the host-it-yourself alternative to MagicLeague!"
+BOT_PREFIX = "!" # Default: !
+
+# F_ROLE/SERVER Object Cache
 F_server = []
 F_owner = []
 F_staff = []
@@ -72,7 +78,7 @@ https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html#bot
 You can see more parameters there.
 """
 
-client = Bot(description="OpenLeague, the host-it-yourself alternative to MagicLeague!", command_prefix=botPrefix, pm_help=False)
+client = Bot(description=BOT_DESCRIPTION, command_prefix=BOT_PREFIX, pm_help=False)
 
 """STARTUP
 The on_ready def is the first thing called when the bot is starting up.
@@ -94,7 +100,7 @@ async def on_ready():
     global F_promotionChannel
     
     # Startup information
-    startup.info("Logged in as: " + client.user.name + " (ID: " + str(client.user.id) + ")")
+    startup.info("Logged in as: " + client.user.name + " (ID: " + client.user.id) + ")")
     startup.info("Discord.py version: " + discord.__version__)
     startup.info("Python version: " + platform.python_version())
     
@@ -235,7 +241,7 @@ async def has_role(u, r):
 # USE: Gives all roles in free[] to given User. Server pass is required so the bot knows what server to search.
 async def set_free(u, s):
     for r in F_free:
-        await set_role(u, far)
+        await set_role(u, r)
 
 # ARGUMENTS: User
 # USE: Gets all roles from User, and compares them to values in the free[] list. If the values match, remove the role and move on.
@@ -344,7 +350,7 @@ Filler
 async def demote(ctx, *args):
     if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==2:
         if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
-            if str(ctx.message.role_mentions[1].id) in team_staff:
+            if ctx.message.role_mentions[1].id in team_staff:
                 if await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
                     if await has_role(ctx.message.mentions[0], ctx.message.role_mentions[1]):
                         await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[1])
@@ -415,7 +421,7 @@ Link to source code
 
 @client.command(name='source', brief='Source code', description='Get information about the bot, as well as a link to the source code.', usage='')
 async def source(ctx, *args):
-    print("filler")
+    await ctx.send(":computer: See the source code at " + SOURCE_CODE_URL)
     
 """RUN
 To run the bot, insert your Discord Developers Token below.
