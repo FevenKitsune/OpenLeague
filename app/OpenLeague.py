@@ -241,13 +241,13 @@ async def set_free(u, s):
 # USE: Gets all roles from User, and compares them to values in the free[] list. If the values match, remove the role and move on.
 async def rm_free(u):
     for r in u.roles:
-        if str(r.id) in free:
+        if r in F_free:
             await rm_role(u, r)
 
 # ARGUMENTS: User
 # USE: Checks if given User has any roles that match any of the roles in free[].
 async def is_free(u):
-    return [i for i in [str(role.id) for role in u.roles] if i in free]
+    return [i for i in [role for role in u.roles] if i in F_free]
 
 # ARGUMENTS: User
 # USE: Checks if given User has any roles that match any of the roles in owner[].
