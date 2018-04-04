@@ -367,7 +367,7 @@ async def demote(ctx, *args):
         await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
 
 """SIGN
-Filler
+filler
 """
 
 @client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.', usage='[@tag_player] [@tag_team]')
@@ -391,24 +391,33 @@ Filler
 
 @client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.', usage='[@tag_player] [@tag_team]')
 async def release(ctx, *args):
-    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
-        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
-            if await has_role(ctx.message.mentions[0], ctx.message.role_mentions[0]):
-                if not await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or not await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
-                    await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
-                    await set_free(ctx.message.mentions[0], ctx.message.guild)
-                    await ctx.send(":exclamation: " + ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
-                else:
-                    await ctx.send(":negative_squared_cross_mark: Sorry, that user is still staff! Please demote them first.")
-            else:
-                await ctx.send(":negative_squared_cross_mark: Sorry, that user is not on that team.")
-        else:
-            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
-    else:
-        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
+
+    if len(ctx.message.mentions)!=1:
+        await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of USER MENTIONS.")
+        return
+        
+    if len(ctx.message.role_mentions)!=1:
+        await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of ROLE MENTIONS.")
+        return
+        
+    if not await is_owner(ctx.message.author) or not await is_staff(ctx.message.author) or not await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or not await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
+        await ctx.send(":negative_squared_cross_mark: You do not have permission to do that.")
+        return
+        
+    if not await has_role(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+        await ctx.send(":negative_squared_cross_mark: The mentioned user is not on that team.")
+        return
+        
+    if await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+        await ctx.send(":negative_squared_cross_mark: The mentioned user is currently a staff member. Demote them before releasing them.")
+        return
+        
+    await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
+    await set_free(ctx.message.mentions[0], ctx.message.guild)
+    await ctx.send(":exclamation: " + ctx.message.mentions[0].mention + " was released from " + ctx.message.role_mentions[0].mention)
 
 """MSGROLE
-Filler
+Unknown use yet.
 """
 
 @client.command(name='msgrole', aliases=['mr'], brief='Staff command. Message role.', description='Staff only. Message all members of a tagged role.', usage='[@tag_role] [string]')
@@ -416,12 +425,12 @@ async def msgrole(ctx, *args):
     print("filler")
 
 """SOURCE
-Link to source code
+Posts a URL to the bot's sourcecode.
 """
 
 @client.command(name='source', brief='Source code', description='Get information about the bot, as well as a link to the source code.', usage='')
 async def source(ctx, *args):
-    await ctx.send(":computer: See the source code at " + SOURCE_CODE_URL)
+    await ctx.send(":computer: See the source code at <" + SOURCE_CODE_URL + ">")
     
 """RUN
 To run the bot, insert your Discord Developers Token below.
