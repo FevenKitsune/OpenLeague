@@ -392,15 +392,18 @@ Filler
 @client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.', usage='[@tag_player] [@tag_team]')
 async def release(ctx, *args):
 
-    if len(ctx.message.mentions)!=1:
+    if len(ctx.message.mentions) != 1:
         await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of USER MENTIONS.")
         return
         
-    if len(ctx.message.role_mentions)!=1:
+    if len(ctx.message.role_mentions) != 1:
         await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of ROLE MENTIONS.")
         return
         
-    if not await is_owner(ctx.message.author) or not await is_staff(ctx.message.author) or not await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or not await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
+    if (not await is_owner(ctx.message.author) or 
+    not await is_staff(ctx.message.author) or 
+    not await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or 
+    not await is_team_staff(ctx.message.author, ctx.message.role_mentions[0])):
         await ctx.send(":negative_squared_cross_mark: You do not have permission to do that.")
         return
         
@@ -408,7 +411,8 @@ async def release(ctx, *args):
         await ctx.send(":negative_squared_cross_mark: The mentioned user is not on that team.")
         return
         
-    if await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+    if (await is_team_owner(ctx.message.mentions[0], ctx.message.role_mentions[0]) or 
+    await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0])):
         await ctx.send(":negative_squared_cross_mark: The mentioned user is currently a staff member. Demote them before releasing them.")
         return
         
