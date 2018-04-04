@@ -252,22 +252,22 @@ async def is_free(u):
 # ARGUMENTS: User
 # USE: Checks if given User has any roles that match any of the roles in owner[].
 async def is_owner(u):
-    return [i for i in [str(role.id) for role in u.roles] if i in owner]
+    return [i for i in [role for role in u.roles] if i in F_owner]
 
 # ARGUMENTS: User
 # USE: Checks if given User has any roles that match any of the roles in staff[].
 async def is_staff(u):
-    return [i for i in [str(role.id) for role in u.roles] if i in staff]
+    return [i for i in [role for role in u.roles] if i in F_staff]
 
 # ARGUMENTS: User, Role
 # USE: Checks if given User has any roles that match any of the roles in team_owner[].
 async def is_team_owner(u, r):
-    return [i for i in [str(role.id) for role in u.roles] if i in team_owner]
+    return [i for i in [role for role in u.roles] if i in F_team_owner]
 
 # ARGUMENTS: User, Role
 # USE: Checks if given User has any roles that match any of the roles in team_staff[].
 async def is_team_staff(u, r):
-    return [i for i in [str(role.id) for role in u.roles] if i in team_staff]
+    return [i for i in [role for role in u.roles] if i in F_team_staff]
     
 # ARGUMENTS: Context
 # USE: Posts a sign message to the given message context when a user is signed.
