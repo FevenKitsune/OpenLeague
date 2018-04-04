@@ -234,8 +234,7 @@ async def has_role(u, r):
 # ARGUMENTS: User, Server
 # USE: Gives all roles in free[] to given User. Server pass is required so the bot knows what server to search.
 async def set_free(u, s):
-    for r in free:
-        far = discord.utils.find(lambda f: f.id == int(r), s.roles)
+    for r in F_free:
         await set_role(u, far)
 
 # ARGUMENTS: User
