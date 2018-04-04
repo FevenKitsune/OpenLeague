@@ -392,6 +392,8 @@ Filler
 @client.command(name='release', aliases=['r'], brief='Release user', description='Release a player from a tagged team.', usage='[@tag_player] [@tag_team]')
 async def release(ctx, *args):
 
+    # CHECKS
+
     if len(ctx.message.mentions) != 1:
         await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of USER MENTIONS.")
         return
