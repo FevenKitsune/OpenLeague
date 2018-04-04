@@ -109,7 +109,7 @@ async def on_ready():
         await client.close()
     
     # Find server and assign it to F_server.
-    F_server = find(lambda a: str(a.id) == server[0], client.guilds)
+    F_server = find(lambda a: a.id == server[0], client.guilds)
     
     # If the server is not found, throw an error.
     if not F_server:
@@ -118,7 +118,7 @@ async def on_ready():
     
     # Find owner roles and assign them to F_owner
     for id in owner:
-        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        find_role = find(lambda b: b.id == id, F_server.roles)
         if find_role:
             startup.info("Found owner role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
             F_owner.append(find_role)
@@ -128,7 +128,7 @@ async def on_ready():
             
     # Find staff roles and assign them to F_staff
     for id in staff:
-        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        find_role = find(lambda b: b.id == id, F_server.roles)
         if find_role:
             startup.info("Found staff role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
             F_staff.append(find_role)
@@ -138,7 +138,7 @@ async def on_ready():
             
     # Find team_owner roles and assign them to F_team_owner
     for id in team_owner:
-        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        find_role = find(lambda b: b.id == id, F_server.roles)
         if find_role:
             startup.info("Found team_owner role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
             F_team_owner.append(find_role)
@@ -148,7 +148,7 @@ async def on_ready():
     
     # Find team_staff roles and assign them to F_team_staff
     for id in team_staff:
-        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        find_role = find(lambda b: b.id == id, F_server.roles)
         if find_role:
             startup.info("Found team_staff role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
             F_team_staff.append(find_role)
@@ -158,7 +158,7 @@ async def on_ready():
     
     # Find free roles and assign them to F_free
     for id in free:
-        find_role = find(lambda b: str(b.id) == id, F_server.roles)
+        find_role = find(lambda b: b.id == id, F_server.roles)
         if find_role:
             startup.info("Found free role: " + find_role.name +" (ID: " + str(find_role.id) + ")")
             F_free.append(find_role)
@@ -175,7 +175,7 @@ async def on_ready():
             startup.warn("transactionChannel_toggle is enabled, but no channel is given. Please check your config.")
             await client.close()
         else:
-            find_channel = find(lambda b: str(b.id) == transactionChannel[0], F_server.channels)
+            find_channel = find(lambda b: b.id == transactionChannel[0], F_server.channels)
             if find_channel:
                 startup.info("Found transaction channel: " + find_channel.name + " (ID: " + str(find_channel.id) + ")")
                 F_transactionChannel = find_channel
@@ -192,7 +192,7 @@ async def on_ready():
             startup.warn("promotionChannel_toggle is enabled, but no channel is given. Please check your config.")
             await client.close()
         else:
-            find_channel = find(lambda b: str(b.id) == promotionChannel[0], F_server.channels)
+            find_channel = find(lambda b: b.id == promotionChannel[0], F_server.channels)
             if find_channel:
                 startup.info("Found promotion channel: " + find_channel.name + " (ID: " + str(find_channel.id) + ")")
                 F_promotionChannel = find_channel
