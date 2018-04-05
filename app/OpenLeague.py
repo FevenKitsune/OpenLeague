@@ -348,23 +348,45 @@ Filler
 
 @client.command(name='demote', aliases=['d'], brief='Demote user', description='Removes all team_staff ranks from a tagged player.', usage='[@tag_player] [@tag_team] [@tag_role]')
 async def demote(ctx, *args):
-    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==2:
-        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]):
-            if ctx.message.role_mentions[1].id in team_staff:
-                if await is_team_staff(ctx.message.mentions[0], ctx.message.role_mentions[0]):
-                    if await has_role(ctx.message.mentions[0], ctx.message.role_mentions[1]):
-                        await rm_role(ctx.message.mentions[0], ctx.message.role_mentions[1])
-                        await ctx.send(":arrow_heading_down: " + ctx.message.mentions[0].mention + " was demoted from " + ctx.message.role_mentions[1].mention)
-                    else:
-                        await ctx.send(":negative_squared_cross_mark: Sorry, that user does not have the tagged team_staff role.")
-                else:
-                    await ctx.send(":negative_squared_cross_mark: Sorry, that user is not currently team_staff, or not on that team.")
-            else:
-                await ctx.send(":negative_squared_cross_mark: Sorry, the tagged role is not a team_staff role. Please check your syntax.")
-        else:
-            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
+
+    staff_role = None
+    team_role = None
+
+    # CHECKS
+    
+    if (len(ctx.message.mentions) != 1):
+        await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of USER MENTIONS.")
+        return
+        
+    if (len(ctx.message.role_mentions) != 2):
+        await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of ROLE MENTIONS.")
+        return
+    
+    if ((ctx.message.role_mentions[0] in F_team_staff) and not (ctx.message.role_mentions[1] in F_team_staff)):
+        staff_role = ctx.message.role_mentions[0]
+    elif ((ctx.message.role_mentions[1] in F_team_staff) and not (ctx.message.role_mentions[0] in F_team_staff)):
+        staff_role = ctx.message.role_mentions[1]
     else:
-        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
+        await ctx.send(":negative_squared_cross_mark: Neither of the roles or both of the roles you mentioned are staff roles!")
+        return
+    
+    if not (await is_owner(ctx.message.author) or 
+    await is_staff(ctx.message.author) or 
+    await is_team_owner(ctx.message.author, team_role)):
+        await ctx.send(":negative_squared_cross_mark: You do not have permission to do that.")
+        return
+    
+    if not (await is_team_staff(ctx.message.mentions[0], team_role)):
+        await ctx.send(":negative_squared_cross_mark: The mentioned user is not currently staff.")
+        return
+        
+    if not (await has_role(ctx.message.mentions[0], staff_role)):
+        await ctx.send(":negative_squared_cross_mark: The mentioned user does not have the mentioned staff role.")
+        return
+        
+    await rm_role(ctx.message.mentions[0], staff_role)
+    await ctx.send(":arrow_heading_down: " + ctx.message.mentions[0].mention + " was demoted from " + staff_role.mention)
+    
 
 """SIGN
 filler
