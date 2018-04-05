@@ -22,8 +22,6 @@ Here, the JSON is loaded, and put into their respective variables.
 
 with open(os.path.join(sys.path[0], 'botfile.json')) as json_data:
     j = json.load(json_data)
-    print(j)
-    print(j['owner'][0])
 
 # Extensions are placed here.
 startup_extensions = j['extensions']
