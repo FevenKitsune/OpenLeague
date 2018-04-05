@@ -29,8 +29,8 @@ with open(os.path.join(sys.path[0], 'botfile.json')) as json_data:
 startup_extensions = ["ExtensionExample"]
 
 # Enable or disable various functions of the bot
-transactions_toggle = j['transaction_settings'][0] # Can equal True or False.
-promotions_toggle = j['promotion_settings'][0] # Can equal True or False.
+transactions_toggle = j['transaction_toggle']
+promotions_toggle = j['promotion_toggle']
 
 # Transaction channel settings
 transactionChannel_toggle = True # Can equal True or False.

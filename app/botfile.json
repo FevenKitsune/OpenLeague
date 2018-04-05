@@ -5,8 +5,8 @@
     
     "extensions": ["ExampleExtension"],
     
-    "promotion_toggle": [true],
-    "transaction_toggle": [true],
+    "transaction_toggle": true,
+    "promotion_toggle": true,
     
     "transaction_channel_settings": [true, 100000000000000001],
     "promotion_channel_settings": [true, 100000000000000001],
