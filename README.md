@@ -1,3 +1,5 @@
+[![Python](https://img.shields.io/badge/python-3.5-brightgreen.svg)](https://www.python.org/downloads/)
+
 OpenLeague
 ==========
 The open-source host-it-yourself alternative to MagicLeague.<br>
