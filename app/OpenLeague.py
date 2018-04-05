@@ -33,30 +33,30 @@ transactions_toggle = j['transaction_toggle']
 promotions_toggle = j['promotion_toggle']
 
 # Transaction channel settings
-transactionChannel_toggle = True # Can equal True or False.
-transactionChannel = [409439762689163275] # Format: [111111111111111111]
+transactionChannel_toggle = j['transaction_channel_settings'][0] # Can equal True or False.
+transactionChannel = j['transaction_channel_settings'][1]
 
 # Promotion channel settings
-promotionChannel_toggle = True # Can equal True or False.
-promotionChannel = [409439762689163275] # Format: [111111111111111111]
+promotionChannel_toggle = j['promotion_channel_settings'][0] # Can equal True or False.
+promotionChannel = j['transaction_channel_settings'][1]
 
 # A list of ID's for roles. Format: [111111111111111111, 222222222222222222] or [111111111111111111]
-server = [385059238231408651] # Only assign one server ID.
-owner = [385059307110137856]
-staff = [414881926630080512]
-team_owner = []
-team_staff = [409468200347238421, 409468370191253514]
-free = [385059381391392770]
+server = j['server']
+owner = j['owner']
+staff = j['staff']
+team_owner = j['team_owner']
+team_staff = j['team_staff']
+free = j['free']
 
 # Sign and Release Messages
-SIGN_MESSAGE = "Hello World!"
-RELEASE_MESSAGE = "Hello World!"
+SIGN_MESSAGE = j['sign_message']
+RELEASE_MESSAGE = j['release_message']
 
 # Other constants
 SOURCE_CODE_URL = "https://github.com/FevenKitsune/OpenLeague"
-BOT_DESCRIPTION = "OpenLeague, the host-it-yourself alternative to MagicLeague!"
-BOT_PREFIX = "!" # Default: !
-BOT_KEY = "TMP"
+BOT_DESCRIPTION = j['description']
+BOT_PREFIX = j['prefix'] # Default: !
+BOT_KEY = j['key']
 
 # F_ROLE/SERVER Object Cache
 F_server = []
