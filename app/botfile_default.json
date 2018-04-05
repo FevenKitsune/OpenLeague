@@ -3,7 +3,7 @@
     "description": "OpenLeague, the host-it-yourself alternative to MagicLeague!",
     "prefix": "!",
     
-    "extensions": ["ExampleExtension"],
+    "extensions": ["ExtensionExample"],
     
     "transaction_toggle": true,
     "promotion_toggle": true,
