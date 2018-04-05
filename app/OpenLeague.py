@@ -13,10 +13,15 @@ from discord.ext.commands import Bot # Discord.py ext import
 from discord.ext import commands # Discord.py ext import
 import logging # Logging import
 import platform # Platform import for version checking.
+import json # Settings loader
 
 """CONFIG
-Here, you can set all of the configurations for the bot.
+Here, the JSON is loaded, and put into their respective variables.
 """
+
+with open("botfile.json") as json_data:
+    j = json.load(json_data)
+    print(j)
 
 # Extensions are placed here.
 startup_extensions = ["ExtensionExample"]
