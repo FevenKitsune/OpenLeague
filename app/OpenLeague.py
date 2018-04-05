@@ -26,7 +26,7 @@ with open(os.path.join(sys.path[0], 'botfile.json')) as json_data:
     print(j['owner'][0])
 
 # Extensions are placed here.
-startup_extensions = ["ExtensionExample"]
+startup_extensions = j['extensions']
 
 # Enable or disable various functions of the bot
 transactions_toggle = j['transaction_toggle']
