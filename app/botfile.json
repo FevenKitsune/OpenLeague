@@ -4,8 +4,12 @@
     "prefix": "!",
     
     "extensions": ["ExampleExtension"],
-    "transaction_settings": [true, 100000000000000001],
-    "promotion_settings": [true, 100000000000000001],
+    
+    "promotion_toggle": [true],
+    "transaction_toggle": [true],
+    
+    "transaction_channel_settings": [true, 100000000000000001],
+    "promotion_channel_settings": [true, 100000000000000001],
     "server": [100000000000000001],
     "owner": [100000000000000001],
     "staff": [100000000000000001, 100000000000000002],

@@ -14,21 +14,23 @@ from discord.ext import commands # Discord.py ext import
 import logging # Logging import
 import platform # Platform import for version checking.
 import json # Settings loader
+import os, sys # Execution location
 
 """CONFIG
 Here, the JSON is loaded, and put into their respective variables.
 """
 
-with open("botfile.json") as json_data:
+with open(os.path.join(sys.path[0], 'botfile.json')) as json_data:
     j = json.load(json_data)
     print(j)
+    print(j['owner'][0])
 
 # Extensions are placed here.
 startup_extensions = ["ExtensionExample"]
 
 # Enable or disable various functions of the bot
-transactions_toggle = True # Can equal True or False.
-promotions_toggle = True # Can equal True or False.
+transactions_toggle = j['transaction_settings'][0] # Can equal True or False.
+promotions_toggle = j['promotion_settings'][0] # Can equal True or False.
 
 # Transaction channel settings
 transactionChannel_toggle = True # Can equal True or False.
@@ -54,6 +56,7 @@ RELEASE_MESSAGE = "Hello World!"
 SOURCE_CODE_URL = "https://github.com/FevenKitsune/OpenLeague"
 BOT_DESCRIPTION = "OpenLeague, the host-it-yourself alternative to MagicLeague!"
 BOT_PREFIX = "!" # Default: !
+BOT_KEY = "TMP"
 
 # F_ROLE/SERVER Object Cache
 F_server = []
@@ -506,4 +509,4 @@ async def source(ctx, *args):
 To run the bot, insert your Discord Developers Token below.
 """
 
-client.run("") # Put your Discord Developers Token here!
+client.run(BOT_KEY) # Put your Discord Developers Token here!
