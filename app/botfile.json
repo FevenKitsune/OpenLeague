@@ -1,0 +1,18 @@
+{
+    "key": "KEY HERE",
+    "description": "OpenLeague, the host-it-yourself alternative to MagicLeague!",
+    "prefix": "!",
+    
+    "extensions": ["ExampleExtension"],
+    "transaction_settings": [true, 100000000000000001],
+    "promotion_settings": [true, 100000000000000001],
+    "server": [100000000000000001],
+    "owner": [100000000000000001],
+    "staff": [100000000000000001, 100000000000000002],
+    "team_owner": [100000000000000001],
+    "team_staff": [100000000000000001, 100000000000000002, 100000000000000003],
+    "free": [100000000000000001],
+    
+    "sign_message": "Hello world!",
+    "release_message": "Hello World!"
+}
