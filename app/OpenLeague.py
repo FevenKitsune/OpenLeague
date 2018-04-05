@@ -100,7 +100,7 @@ async def on_ready():
     global F_promotionChannel
     
     # Startup information
-    startup.info("Logged in as: " + client.user.name + " (ID: " + client.user.id) + ")")
+    startup.info("Logged in as: " + client.user.name + " (ID: " + str(client.user.id) + ")")
     startup.info("Discord.py version: " + discord.__version__)
     startup.info("Python version: " + platform.python_version())
     
@@ -372,18 +372,31 @@ filler
 
 @client.command(name='sign', aliases=['s'], brief='Sign user', description='Sign a player to a tagged team.', usage='[@tag_player] [@tag_team]')
 async def sign(ctx, *args):
-    if len(ctx.message.mentions)==1 and len(ctx.message.role_mentions)==1:
-        if await is_owner(ctx.message.author) or await is_staff(ctx.message.author) or await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or await is_team_staff(ctx.message.author, ctx.message.role_mentions[0]):
-            if await is_free(ctx.message.mentions[0]):
-                await rm_free(ctx.message.mentions[0])
-                await set_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
-                await ctx.send(":pen_fountain: " + ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
-            else:
-                await ctx.send(":negative_squared_cross_mark: Sorry, that user is not a free agent.")
-        else:
-            await ctx.send(":negative_squared_cross_mark: Sorry, you don't have permission to do that.")
-    else:
-        await ctx.send(":negative_squared_cross_mark: Invalid syntax, please check formatting.")
+
+    # CHECKS
+    
+    if (len(ctx.message.mentions) != 1):
+        await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of USER MENTIONS.")
+        return
+        
+    if (len(ctx.message.role_mentions) != 1):
+        await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of ROLE MENTIONS.")
+        return
+
+    if not (await is_owner(ctx.message.author) or 
+    await is_staff(ctx.message.author) or 
+    await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or 
+    await is_team_staff(ctx.message.author, ctx.message.role_mentions[0])):
+        await ctx.send(":negative_squared_cross_mark: You do not have permission to do that.")
+        return
+        
+    if not (await is_free(ctx.message.mentions[0])):
+        await ctx.send(":negative_squared_cross_mark: The mentioned user is not a free agent.")
+        return
+        
+    await rm_free(ctx.message.mentions[0])
+    await set_role(ctx.message.mentions[0], ctx.message.role_mentions[0])
+    await ctx.send(":pen_fountain: " + ctx.message.mentions[0].mention + " was signed to " + ctx.message.role_mentions[0].mention)
 
 """RELEASE
 Filler
@@ -394,22 +407,22 @@ async def release(ctx, *args):
 
     # CHECKS
 
-    if len(ctx.message.mentions) != 1:
+    if (len(ctx.message.mentions) != 1):
         await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of USER MENTIONS.")
         return
         
-    if len(ctx.message.role_mentions) != 1:
+    if (len(ctx.message.role_mentions) != 1):
         await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of ROLE MENTIONS.")
         return
         
-    if (not await is_owner(ctx.message.author) or 
-    not await is_staff(ctx.message.author) or 
-    not await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or 
-    not await is_team_staff(ctx.message.author, ctx.message.role_mentions[0])):
+    if not (await is_owner(ctx.message.author) or 
+    await is_staff(ctx.message.author) or 
+    await is_team_owner(ctx.message.author, ctx.message.role_mentions[0]) or 
+    await is_team_staff(ctx.message.author, ctx.message.role_mentions[0])):
         await ctx.send(":negative_squared_cross_mark: You do not have permission to do that.")
         return
         
-    if not await has_role(ctx.message.mentions[0], ctx.message.role_mentions[0]):
+    if not (await has_role(ctx.message.mentions[0], ctx.message.role_mentions[0])):
         await ctx.send(":negative_squared_cross_mark: The mentioned user is not on that team.")
         return
         
