@@ -18,4 +18,5 @@ How to install the latest Discord.py rewrite:<br>
 Markdown syntax guide: https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html
 Python syntax guide: https://www.python.org/dev/peps/pep-0008
 Discord.py API Guide: https://discordpy.readthedocs.io/en/rewrite/
-Discord.py Extended API Guide: https://discordpy.readthedocs.io/en/rewrite/ext/commands/index.html```
+Discord.py Extended API Guide: https://discordpy.readthedocs.io/en/rewrite/ext/commands/index.html
+```
