@@ -18,12 +18,13 @@ import os, sys # Execution location
 
 """CONFIG
 Here, the JSON is loaded, and put into their respective variables.
+Do not make changes to the program here. Please create a botfile.json for your server!
 """
 
 with open(os.path.join(sys.path[0], 'botfile.json')) as json_data:
     j = json.load(json_data)
 
-# Extensions are placed here.
+# Extension names.
 startup_extensions = j['extensions']
 
 # Enable or disable various functions of the bot
@@ -64,7 +65,6 @@ F_team_owner = []
 F_team_staff = []
 F_free = []
 
-# Variables used to store channel objects. Do not edit.
 F_transactionChannel = []
 F_promotionChannel = []
 
@@ -328,7 +328,7 @@ async def getid(ctx, *args):
         await ctx.send(pl)
         
 """PROMOTE
-Filler
+Allows team owners+ to promote a user to a team staff position.
 """
 
 @client.command(name='promote', aliases=['p'], brief='Promote user', description='Gives tagged player the tagged team_staff rank.', usage='[@tag_player] [@tag_team] [@tag_role]')
@@ -373,7 +373,7 @@ async def promote(ctx, *args):
     await ctx.send(":star2: " + ctx.message.mentions[0].mention + " was promoted to " + staff_role.mention)
 
 """DEMOTE
-Filler
+Allows team owners+ to demote a user from a team staff position.
 """
 
 @client.command(name='demote', aliases=['d'], brief='Demote user', description='Removes all team_staff ranks from a tagged player.', usage='[@tag_player] [@tag_team] [@tag_role]')
