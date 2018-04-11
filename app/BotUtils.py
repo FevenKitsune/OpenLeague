@@ -21,15 +21,21 @@ class BotUtils():
     def __init__(self, client):
         self.client = client
         
-    """Test
+    """MEMBERCOUNT
+    Returns the number of members in the server.
     """
+    
+    @commands.command(name='membercount', aliases=['mc','memcount','mcount'], brief='Server Member Count', description='Returns the number of members in the server.', usage='<none>')
+    async def membercount(self, ctx, *args):
+        //WIP
+        print("WIP")
 
     """RANDOMINT
     Generates a random number between two arguments.
     """
 
     @commands.command(name='randomint', aliases=['rn','randint','rint'], brief='Random Integer Generator', description='Generate an integer from <n1> to <n2>', usage='<n1> <n2>')
-    async def extension(self, ctx, *args):
+    async def randomint(self, ctx, *args):
         if len(args) == 0:
             await ctx.send(":negative_squared_cross_mark: Not enough arguments!")
             return
