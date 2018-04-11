@@ -21,14 +21,34 @@ class BotUtils():
     def __init__(self, client):
         self.client = client
         
+    """ROLEHOLDERS
+    Returns the number of members that have a certain role.
+    """
+    
+    @commands.command(name='roleholders', aliases=['rh','rolemem'], brief='Role Holder Count', description='Returns the number of members that have a tagged role.', usage='[@tag_role]')
+    async def roleholders(self, ctx, *args):
+        if len(ctx.message.role_mentions) != 1:
+            await ctx.send(":negative_squared_cross_mark: Incorrect syntax! Reason: Incorrect number of ROLE MENTIONS.")
+            return
+        
+        i=0
+        for m in ctx.guild.members:
+            if ctx.message.role_mentions[0] in m.roles:
+                i+=1
+        await ctx.send(":clipboard: That role has " + str(i) + " members.")
+        return
+        
     """MEMBERCOUNT
     Returns the number of members in the server.
     """
     
     @commands.command(name='membercount', aliases=['mc','memcount','mcount'], brief='Server Member Count', description='Returns the number of members in the server.', usage='<none>')
     async def membercount(self, ctx, *args):
-        //WIP
-        print("WIP")
+        if ctx.guild:
+            await ctx.send(":eyes: I see " + str(len(ctx.guild.members)) + " members in this server.")
+        else:
+            await ctx.send(":shrug: Just you and me. This seems to be a DM channel.")
+        return
 
     """RANDOMINT
     Generates a random number between two arguments.
@@ -62,6 +82,7 @@ class BotUtils():
                 return
         else:
             await ctx.send(":negative_squared_cross_mark: Too many arguments!")
+            return
 
 """SETUP
 Called by DiscordExtensions. Loads the extension into the client.
