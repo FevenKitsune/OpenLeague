@@ -1,4 +1,4 @@
-    """MAIN
+"""MAIN
 Program: OpenLeague > BotUtils
 Author: Feven Kitsune <email upon request>
 License: GNU GENERAL PUBLIC LICENSE v3.0
