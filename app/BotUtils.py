@@ -1,4 +1,4 @@
-"""MAIN
+    """MAIN
 Program: OpenLeague > BotUtils
 Author: Feven Kitsune <email upon request>
 License: GNU GENERAL PUBLIC LICENSE v3.0
@@ -8,9 +8,6 @@ import discord
 import logging
 from discord.ext import commands
 from random import randint
-
-# Extension logger (Unused currently)
-ext = logging.getLogger("ext")
 
 class BotUtils():
 

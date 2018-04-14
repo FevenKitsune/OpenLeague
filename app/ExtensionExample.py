@@ -8,9 +8,6 @@ import discord
 import logging
 from discord.ext import commands
 
-# Extension logger (Unused currently)
-ext = logging.getLogger("ext")
-
 class ExtensionExample():
 
     """INITIALIZER
