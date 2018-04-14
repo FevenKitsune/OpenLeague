@@ -16,30 +16,31 @@ import platform # Platform import for version checking.
 import json # Settings loader
 import os, sys # Execution location
 
-"""CONFIG
+"""JSON CONFIG
 Here, the JSON is loaded, and put into their respective variables.
 Do not make changes to the program here. Please create a botfile.json for your server!
 """
 
+# Loads JSON file called botfile.json. This file must be in the same directory.
 with open(os.path.join(sys.path[0], 'botfile.json')) as json_data:
     j = json.load(json_data)
 
-# Extension names.
+# JSON - Extension List
 startup_extensions = j['extensions']
 
-# Enable or disable various functions of the bot
+# JSON - Function Toggles
 transactions_toggle = j['transaction_toggle']
 promotions_toggle = j['promotion_toggle']
 
-# Transaction channel settings
+# JSON - Transaction Channel Settings
 transactionChannel_toggle = j['transaction_channel_settings'][0] # Can equal True or False.
 transactionChannel = j['transaction_channel_settings'][1]
 
-# Promotion channel settings
+# JSON - Promotion Channel Settings
 promotionChannel_toggle = j['promotion_channel_settings'][0] # Can equal True or False.
 promotionChannel = j['transaction_channel_settings'][1]
 
-# A list of ID's for roles. Format: [111111111111111111, 222222222222222222] or [111111111111111111]
+# JSON Loader - Server Information
 server = j['server']
 owner = j['owner']
 staff = j['staff']
@@ -47,11 +48,11 @@ team_owner = j['team_owner']
 team_staff = j['team_staff']
 free = j['free']
 
-# Sign and Release Messages
+# JSON Loader - Sign and Release Messages
 SIGN_MESSAGE = j['sign_message']
 RELEASE_MESSAGE = j['release_message']
 
-# Other constants
+# JSON Loader - Other Constants
 SOURCE_CODE_URL = "https://github.com/FevenKitsune/OpenLeague"
 BOT_DESCRIPTION = j['description']
 BOT_PREFIX = j['prefix'] # Default: !
