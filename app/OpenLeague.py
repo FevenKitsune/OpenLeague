@@ -508,4 +508,4 @@ async def source(ctx, *args):
 To run the bot, insert your Discord Developers Token below.
 """
 
-client.run(BOT_KEY) # Put your Discord Developers Token here!
+client.run(BOT_KEY)
