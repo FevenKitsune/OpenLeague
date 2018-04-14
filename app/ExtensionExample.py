@@ -29,5 +29,6 @@ class ExtensionExample():
 """SETUP
 Called by DiscordExtensions. Loads the extension into the client.
 """
+
 def setup(client):
     client.add_cog(ExtensionExample(client))
