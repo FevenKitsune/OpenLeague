@@ -12,6 +12,11 @@ The open-source host-it-yourself alternative to MagicLeague.
 How to install the latest Discord.py rewrite:<br>
 ``pip3 install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]``
 
+If you get the error ``TypeError: Inheritance a class from URL is forbidden`` then run the following:<br>
+``pip install "yarl<1.2"``
+
+Source: https://stackoverflow.com/questions/50165167/typeerror-inheritance-a-class-from-url-is-forbidden
+
 ## Reference Guides:
 
 ```
