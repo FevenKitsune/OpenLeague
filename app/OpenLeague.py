@@ -9,7 +9,7 @@ Syntax Guide: https://www.python.org/dev/peps/pep-0008
 
 import discord # Discord.py import
 from discord.utils import find #Discord.py find utility
-from discord.ext.commands import Bot # Discord.py ext import
+from discord.ext.commands import Bot # Discord.py ext import # TIL this is bad code to import this AND commands. Will rework soon.
 from discord.ext import commands # Discord.py ext import
 import logging # Logging import
 import platform # Platform import for version checking.
