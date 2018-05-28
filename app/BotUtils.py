@@ -80,9 +80,9 @@ class BotUtils():
                 await ctx.send(":negative_squared_cross_mark: Invalid arguments!")
                 return
             
-            # Ensures the first number given is smaller than the second.
-            if not (int(args[0]) < int(args[1])):
-                await ctx.send(":negative_squared_cross_mark: Invalid arguments!")
+            # Checks if the first number is less then the second, if so reverse the randint.
+            if int(args[0]) > int(args[1]):
+                await ctx.send(":game_die: " + str(randint(int(args[1]), int(args[0]))))
                 return
                 
             await ctx.send(":game_die: " + str(randint(int(args[0]), int(args[1]))))
