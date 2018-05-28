@@ -5,11 +5,10 @@ License: GNU GENERAL PUBLIC LICENSE v3.0
 """
 
 import discord
-import logging
 from discord.ext import commands
 from random import randint
 
-class BotUtils():
+class BotUtils:
 
     """INITIALIZER
     What is first called when the class ExtensionExample() is loaded. Set's the class's client variable to the client passed by the main client.
