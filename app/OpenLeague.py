@@ -8,8 +8,7 @@ Syntax Guide: https://www.python.org/dev/peps/pep-0008
 """
 
 import discord # Discord.py import
-from discord.utils import find #Discord.py find utility
-from discord.ext.commands import Bot # Discord.py ext import # TIL this is bad code to import this AND commands. Will rework soon.
+from discord.utils import find # Discord.py find utility
 from discord.ext import commands # Discord.py ext import
 import logging # Logging import
 import platform # Platform import for version checking.
@@ -85,7 +84,7 @@ https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html#bot
 You can see more parameters there.
 """
 
-client = Bot(description=BOT_DESCRIPTION, command_prefix=BOT_PREFIX, pm_help=False)
+client = commands.Bot(description=BOT_DESCRIPTION, command_prefix=BOT_PREFIX, pm_help=False)
 
 """STARTUP
 The on_ready def is the first thing called when the bot is starting up.
