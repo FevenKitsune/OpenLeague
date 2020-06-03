@@ -1,7 +1,7 @@
 """MAIN
 Program: OpenLeague > BotUtils
 Author: Feven Kitsune <email upon request>
-License: GNU GENERAL PUBLIC LICENSE v3.0
+License: CC0 1.0 Universal
 """
 
 from discord.ext import commands
