@@ -1,3 +1,6 @@
+# Depreciated
+This repository has been archived. The code in this project is provided as-is and can be used for any purpose whatsoever.
+
 # OpenLeague
 
 [![Python](https://img.shields.io/badge/python-3.5-brightgreen.svg)](https://www.python.org/downloads/)
